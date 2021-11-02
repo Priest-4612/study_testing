@@ -1,7 +1,31 @@
-from selenium import webdriver
+import time
+import unittest
 
-PATH_CHROME_DRIVER = 'venv\Scripts\chromedriver.exe'
-browser = webdriver.Chrome(PATH_CHROME_DRIVER)
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+
+PATH_CHROME_DRIVER = r'venv\Scripts\chromedriver'
+service = Service(PATH_CHROME_DRIVER)
+service.start()
+browser = webdriver.Remote(service.service_url)
 browser.get('http://localhost:8000')
 
-assert 'Django' in browser.title
+# Название заголовка и шапки страницы "To-Do"
+assert 'To-Do' in browser.title
+
+# Ей сразу же предлагается ввести элемент списка
+# Она набирает в текстовом поле "Купить павлиньи перья" (ее хобби –
+# вязание рыболовных мушек)
+# Когда она нажимает enter, страница обновляется, и теперь страница
+# содержит "1: Купить павлиньи перья" в качестве элемента списка
+# Текстовое поле по-прежнему приглашает ее добавить еще один элемент.
+# Она вводит "Сделать мушку из павлиньих перьев"
+# (Эдит очень методична)
+# Страница снова обновляется, и теперь показывает оба элемента ее списка
+# Эдит интересно, запомнит ли сайт ее список. Далее она видит, что
+# сайт сгенерировал для нее уникальный URL-адрес – об этом
+# выводится небольшой текст с объяснениями.
+# Она посещает этот URL-адрес – ее список по-прежнему там.
+# Удовлетворенная, она снова ложится спать
+
+browser.quit()
