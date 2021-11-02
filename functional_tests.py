@@ -1,31 +1,37 @@
-import time
 import unittest
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 
-PATH_CHROME_DRIVER = r'venv\Scripts\chromedriver'
-service = Service(PATH_CHROME_DRIVER)
-service.start()
-browser = webdriver.Remote(service.service_url)
-browser.get('http://localhost:8000')
 
-# Название заголовка и шапки страницы "To-Do"
-assert 'To-Do' in browser.title
+class NewVisitorTest(unittest.TestCase):
+    '''Тест нового посетителя'''
 
-# Ей сразу же предлагается ввести элемент списка
-# Она набирает в текстовом поле "Купить павлиньи перья" (ее хобби –
-# вязание рыболовных мушек)
-# Когда она нажимает enter, страница обновляется, и теперь страница
-# содержит "1: Купить павлиньи перья" в качестве элемента списка
-# Текстовое поле по-прежнему приглашает ее добавить еще один элемент.
-# Она вводит "Сделать мушку из павлиньих перьев"
-# (Эдит очень методична)
-# Страница снова обновляется, и теперь показывает оба элемента ее списка
-# Эдит интересно, запомнит ли сайт ее список. Далее она видит, что
-# сайт сгенерировал для нее уникальный URL-адрес – об этом
-# выводится небольшой текст с объяснениями.
-# Она посещает этот URL-адрес – ее список по-прежнему там.
-# Удовлетворенная, она снова ложится спать
+    def setUp(self):
+        '''Установка'''
+        PATH_CHROME_DRIVER = r'venv\Scripts\chromedriver'
+        self.service = Service(PATH_CHROME_DRIVER)
 
-browser.quit()
+    def tearDown(self):
+        '''демонтаж'''
+        self.browser.quit()
+
+    def test_can_start_a_list_and_retrieve_later(self):
+        '''тест: можно начать список и получить его позже'''
+        # Эдит слышала про крутое новое онлайн-приложение со
+        # списком неотложных дел. Она решает оценить его
+        # домашнюю страницу
+        self.service.start()
+        self.browser = webdriver.Remote(self.service.service_url)
+        self.browser.get('http://localhost:8000')
+
+        # Она видит, что заголовок и шапка страницы говорят о
+        # списках неотложных дел
+        self.assertIn('To-Do', self.browser.title)
+        self.fail('Закончить тест!')
+
+        # Ей сразу же предлагается ввести элемент списка
+
+
+if __name__ == '__main__':
+    unittest.main(warnings='ignore')
