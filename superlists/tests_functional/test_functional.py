@@ -1,17 +1,17 @@
 import time
-import unittest
 
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     '''Тест нового посетителя'''
 
     def setUp(self):
         '''Установка'''
-        PATH_CHROME_DRIVER = r'venv\Scripts\chromedriver'
+        PATH_CHROME_DRIVER = r'..\venv\Scripts\chromedriver'
         self.service = Service(PATH_CHROME_DRIVER)
 
     def tearDown(self):
@@ -27,7 +27,7 @@ class NewVisitorTest(unittest.TestCase):
         '''тест: можно начать список и получить его позже'''
         self.service.start()
         self.browser = webdriver.Remote(self.service.service_url)
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         self.assertIn('To-Do', self.browser.title)
 
         header_test = self.browser.find_element_by_tag_name('h1').text
@@ -54,7 +54,3 @@ class NewVisitorTest(unittest.TestCase):
         )
 
         self.fail('Закончить тест!')
-
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
