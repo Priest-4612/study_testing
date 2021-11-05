@@ -3,7 +3,7 @@ from django.test import TestCase
 from lists.models import Item
 
 
-class ItemModelTest(TestCase):
+class ItemModelTests(TestCase):
     '''тест модели элемента списка'''
 
     def test_saving_and_retriving_items(self):

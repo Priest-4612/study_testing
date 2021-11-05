@@ -16,12 +16,10 @@ class NewVisitorTest(LiveServerTestCase):
         '''Установка'''
         PATH_CHROME_DRIVER = r'..\venv\Scripts\chromedriver'
         self.service = Service(PATH_CHROME_DRIVER)
-        self.service.start()
-        self.browser = webdriver.Remote(self.service.service_url)
 
     def tearDown(self):
         '''демонтаж'''
-        self.browser.quit()
+        self.service.stop()
 
     def wait_for_row_in_list_table(self, row_text):
         start_time = time.time()
@@ -43,6 +41,8 @@ class NewVisitorTest(LiveServerTestCase):
 
     def test_can_start_a_list_for_one_user(self):
         '''тест: можно начать список для одного пользователя'''
+        self.service.start()
+        self.browser = webdriver.Remote(self.service.service_url)
         self.browser.get(self.live_server_url)
 
         self.add_new_element('Купить павлиньи перья')
@@ -54,16 +54,19 @@ class NewVisitorTest(LiveServerTestCase):
         '''
             тест: многочисленные пользователи могут начать списки по разным url
         '''
+
+        self.service.start()
+        self.browser = webdriver.Remote(self.service.service_url)
         self.browser.get(self.live_server_url)
         self.add_new_element('Купить павлиньи перья')
         self.wait_for_row_in_list_table('1: Купить павлиньи перья')
-        self.add_new_element('Сделать мушку из павлиньих перьев')
-        self.wait_for_row_in_list_table('2: Сделать мушку из павлиньих перьев')
 
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
-        self.browser.quit()
+        self.service.stop()
 
+        self.service.start()
+        self.browser = webdriver.Remote(self.service.service_url)
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Купить павлиньи перья', page_text)
