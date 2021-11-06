@@ -1,5 +1,6 @@
 LIST_URLS = {
     'HOME': '/',
     'NEW': '/lists/new',
-    'LIST': '/lists/one-list/'
+    'LIST': '/lists/{id}/',
+    'ADD_ITEM': '/lists/{id}/add_item'
 }

@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do lists</title>
-</head>
-<body>
-    <h1>start a new To-Do list</h1>
-    <form action="/lists/new" method="post">
+{% extends 'base.html' %}
+{% block title %}Start a new To-Do list{% endblock title %}
+{% block header %}Start a new To-Do list{% endblock header %}
+{% block content %}
+    <form action={% url 'lists:new_list' %} method="post">
         <input id="id_new_item" name="item_text" placeholder="Enter a to-do item"/>
         {% csrf_token %}
     </form>
-</body>
-</html>
+{% endblock content %}
