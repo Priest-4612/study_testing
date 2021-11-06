@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Хранилище статичных файлов
+/superlists/lists/static/*
+!/superlists/lists/static/.gitkeep
+/superlists/static/*
+!/superlists/static/.gitkeep
