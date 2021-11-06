@@ -50,35 +50,35 @@ class NewVisitorTest(LiveServerTestCase):
         self.add_new_element('Сделать мушку из павлиньих перьев')
         self.wait_for_row_in_list_table('2: Сделать мушку из павлиньих перьев')
 
-    # def test_multiple_users_can_start_lists_at_different_urls(self):
-    #     '''
-    #         тест: многочисленные пользователи могут начать списки по разным url
-    #     '''
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        '''
+            тест: многочисленные пользователи могут начать списки по разным url
+        '''
 
-    #     self.service.start()
-    #     self.browser = webdriver.Remote(self.service.service_url)
-    #     self.browser.get(self.live_server_url)
-    #     self.add_new_element('Купить павлиньи перья')
-    #     self.wait_for_row_in_list_table('1: Купить павлиньи перья')
+        self.service.start()
+        self.browser = webdriver.Remote(self.service.service_url)
+        self.browser.get(self.live_server_url)
+        self.add_new_element('Купить павлиньи перья')
+        self.wait_for_row_in_list_table('1: Купить павлиньи перья')
 
-    #     edith_list_url = self.browser.current_url
-    #     self.assertRegex(edith_list_url, '/lists/.+')
-    #     self.service.stop()
+        edith_list_url = self.browser.current_url
+        self.assertRegex(edith_list_url, '/lists/.+')
+        self.service.stop()
 
-    #     self.service.start()
-    #     self.browser = webdriver.Remote(self.service.service_url)
-    #     self.browser.get(self.live_server_url)
-    #     page_text = self.browser.find_element_by_tag_name('body').text
-    #     self.assertNotIn('Купить павлиньи перья', page_text)
-    #     self.assertNotIn('Сделать мушку из павлиньих перьев', page_text)
-    #     self.add_new_element('Купить молоко')
-    #     self.wait_for_row_in_list_table('1: Купить молоко')
+        self.service.start()
+        self.browser = webdriver.Remote(self.service.service_url)
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Купить павлиньи перья', page_text)
+        self.assertNotIn('Сделать мушку из павлиньих перьев', page_text)
+        self.add_new_element('Купить молоко')
+        self.wait_for_row_in_list_table('1: Купить молоко')
 
-    #     francis_list_url = self.browser.current_url
-    #     self.assertRegex(francis_list_url, '/lists/.+')
-    #     self.assertNotIn('Купить павлиньи перья', page_text)
-    #     self.assertNotEqual(francis_list_url, edith_list_url)
+        francis_list_url = self.browser.current_url
+        self.assertRegex(francis_list_url, '/lists/.+')
+        self.assertNotIn('Купить павлиньи перья', page_text)
+        self.assertNotEqual(francis_list_url, edith_list_url)
 
-    #     page_text = self.browser.find_element_by_tag_name('body').text
-    #     self.assertNotIn('Купить павлиньи перья', page_text)
-    #     self.assertIn('Купить молоко')
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Купить павлиньи перья', page_text)
+        self.assertIn('Купить молоко')
